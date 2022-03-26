@@ -1,0 +1,72 @@
+<settings>
+	<phone-settings e="2">
+		<language perm="">English</language>
+		<dhcp perm="">on</dhcp>
+		{% if uboot_lock is defined and uboot_lock %}
+		<uboot_lock>set:{{ uboot_lock }}</uboot_lock>
+		{% endif %}
+		<phone_name perm="RW">{{ team_phone_name }}</phone_name>
+		<utc_offset perm="">-28800</utc_offset>
+		<syslog_server perm="">{{ syslog_server }}</syslog_server>
+		<http_user perm="">{{ team_admin_username }}</http_user>
+		<http_pass perm="">{{ team_admin_password }}</http_pass>
+		<dst perm="">3600 03.02.07 02:00:00 11.01.07 02:00:00</dst>
+		<timezone perm="">USA-8</timezone>
+		<!--<admin_mode_password perm=""></admin_mode_password>-->
+		<admin_mode_upon_http_login perm="">on</admin_mode_upon_http_login>
+		<auto_reboot_on_setting_change perm="">off</auto_reboot_on_setting_change>
+		<tone_scheme perm="">USA</tone_scheme>
+		<vol_handset perm="">5</vol_handset>
+		<update_host_f perm="RW"></update_host_f>
+		<multicast_listen perm="">on</multicast_listen>
+		<mc_address idx="1" perm="">239.0.0.0:1411,name=all-phones</mc_address>
+		<mc_address idx="2" perm="">239.0.0.0:1222,name=blue-teams</mc_address>
+		<mc_address idx="3" perm="">239.0.0.0:1411,name=operations-phones</mc_address>
+		<dkey_retrieve perm="">speed *97</dkey_retrieve>
+		<dkey_directory perm="">keyevent F_CONTACTS</dkey_directory>
+		<!--<gui_fkey4 perm="">keyevent F_ZONES</gui_fkey4>-->
+		<use_hidden_tags perm="">on</use_hidden_tags>
+		{% if team_idx1_account is defined and team_idx1_account %}
+		<user_realname idx="1" perm="">{{ team_idx1_display_name }}</user_realname>
+		<user_name idx="1" perm="">{{ team_idx1_account }}</user_name>
+		<user_host idx="1" perm="">{{ sip_server }}</user_host>
+		<user_pass idx="1" perm="">{{ team_idx1_password }}</user_pass>
+		<user_uid idx="1" perm="">{{ team_idx1_uuid }}</user_uid>
+		<user_ringer idx="1" perm="">{{ team_idx1_ringer }}</user_ringer>	
+		<user_custom idx="1" perm="">{{ team_idx1_ringer_url }}</user_custom>
+		<hide_identity idx="1" perm="">false</hide_identity>
+		{% endif %}
+		{% if team_idx2_account is defined and team_idx2_account %}
+		<user_realname idx="2" perm="">{{ team_idx2_display_name }}</user_realname>
+		<user_name idx="2" perm="">{{ team_idx2_account }}</user_name>
+		<user_host idx="2" perm="">{{ sip_server }}</user_host>
+		<user_pass idx="2" perm="">{{ team_idx2_password }}</user_pass>
+		<user_uid idx="2" perm="">{{ team_idx2_uuid }}</user_uid>
+		<user_ringer idx="2" perm="">{{ team_idx2_ringer }}</user_ringer>	
+		<user_custom idx="2" perm="">{{ team_idx2_ringer_url }}</user_custom>
+		<hide_identity idx="2" perm="">false</hide_identity>
+		{% endif %}
+	</phone-settings>
+	<functionKeys e="2">
+		<fkey idx="1" context="2" label="" lp="on" perm="">line</fkey>
+	</functionKeys>
+	{% if phonebook_defined == true %}
+	<tbook e="2">
+		{% for contact in phonebook %}
+		{% if contact.vip is defined and contact.vip == 'true'  %}
+		<item context="active" type="vip" fav="false" mod="true" index="1">
+		{% else %}
+		<item context="active" type="none" fav="true" mod="true" index="0">
+		{% endif %}
+			<name>{{ contact.name }}</name>
+			<number>{{ contact.number }}</number>
+			<number_type>{{ contact.type }}</number_type>
+			<title>{{ contact.name }}</title>
+			<birthday>00/00/99</birthday>
+		</item>
+		{% endfor %}
+	</tbook>
+	{% else %}
+	<tbook e="2" />
+	{% endif %}
+</settings>
